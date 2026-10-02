@@ -12,4 +12,3 @@ $conexionBd = new mysqli($nombreServidor, $nombreUsuario, $contrasena, $nombreBa
 if ($conexionBd->connect_error) {
     die("Error de conexión: " . $conexionBd->connect_error);
 }
-// No cerramos la etiqueta PHP para evitar errores de espacios en blanco
