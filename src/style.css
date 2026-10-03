@@ -1,0 +1,102 @@
+/* src/style.css */
+:root {
+    --primaria: #FF6B6B; /* Vermelho/Laranja apetitoso */
+    --secundaria: #4ECDC4; /* Verde água */
+    --fundo: #F7F1E3; /* Cor de creme claro */
+    --texto: #2D3436;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: var(--fundo);
+    color: var(--texto);
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+}
+
+header {
+    background-color: var(--primaria);
+    color: white;
+    padding: 20px;
+    text-align: center;
+    border-radius: 0 0 20px 20px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+    margin-bottom: 20px;
+}
+
+/* Grid Responsivo (Adapta para Celular ou PC) */
+.grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 20px;
+}
+
+.card {
+    background: white;
+    padding: 20px;
+    border-radius: 12px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+    text-align: center;
+    transition: transform 0.2s;
+}
+
+.card:hover {
+    transform: translateY(-5px);
+}
+
+.precio {
+    color: #27ae60;
+    font-size: 1.2rem;
+    font-weight: bold;
+}
+
+/* Botões com máximo de 3 cliques (AC1) */
+.btn {
+    background-color: var(--primaria);
+    color: white;
+    border: none;
+    padding: 12px 20px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+    width: 100%;
+    margin-top: 15px;
+}
+
+.btn:hover { background-color: #ff5252; }
+
+/* Controles de Quantidade */
+.controles {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 15px;
+    margin-top: 15px;
+}
+
+.btn-cant {
+    background: #eee;
+    border: none;
+    width: 35px;
+    height: 35px;
+    border-radius: 50%;
+    font-size: 18px;
+    cursor: pointer;
+}
+
+.input-mesa {
+    width: 100px;
+    padding: 10px;
+    font-size: 18px;
+    text-align: center;
+    border: 2px solid #ccc;
+    border-radius: 8px;
+    margin: 10px 0;
+}
