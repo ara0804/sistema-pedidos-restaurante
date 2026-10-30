@@ -1,26 +1,21 @@
 <?php
+declare(strict_types=1);
 require_once 'conexion.php';
 
-if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    if(isset($_POST['pedido_id']) && isset($_POST['nuevo_estado'])) {
-        $pedido_id = intval($_POST['pedido_id']);
-        $nuevo_estado = $_POST['nuevo_estado'];
-        
-        // Evitamos inyección SQL
-        $nuevo_estado = $conn->real_escape_string($nuevo_estado);
-        
-        $sql_actualizar = "UPDATE pedidos SET estado = '$nuevo_estado' WHERE id = $pedido_id";
-        
-        if ($conn->query($sql_actualizar) === TRUE) {
-            // Volver automáticamente a la pantalla de cocina
-            header("Location: cocina.php");
-            exit();
-        } else {
-            echo "Error al actualizar el estado: " . $conn->error;
+if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['pedido_id'], $_POST['nuevo_estado'])) {
+    $pedidoId = intval($_POST['pedido_id']);
+    $nuevoEstado = (string) $_POST['nuevo_estado'];
+    $permitidos = ['En preparación', 'Listo'];
+
+    if ($pedidoId > 0 && in_array($nuevoEstado, $permitidos, true)) {
+        $stmt = $conn->prepare("UPDATE pedidos SET estado = ? WHERE id = ?");
+        if ($stmt !== false) {
+            $stmt->bind_param('si', $nuevoEstado, $pedidoId);
+            $stmt->execute();
+            $stmt->close();
         }
     }
-} else {
-    header("Location: cocina.php");
-    exit();
 }
-?>
+
+header('Location: cocina.php');
+exit;
