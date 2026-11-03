@@ -1,13 +1,18 @@
 <?php
-$host = "localhost";
-$user = "root"; 
-$password = ""; 
-$database = "sistema_pedidos"; // Asegúrate de que este nombre coincide con tu schema.sql
+declare(strict_types=1);
 
-$conn = new mysqli($host, $user, $password, $database);
+mysqli_report(MYSQLI_REPORT_OFF);
+
+$host = 'localhost';
+$usuario = 'root';
+$clave = '';
+$baseDatos = 'sistema_pedidos';
+
+$conn = new mysqli($host, $usuario, $clave, $baseDatos);
 
 if ($conn->connect_error) {
-    die("Error de conexión: " . $conn->connect_error);
+    http_response_code(500);
+    die('Error de conexión con la base de datos del sistema.');
 }
-$conn->set_charset("utf8mb4");
-?>
+
+$conn->set_charset('utf8mb4');
