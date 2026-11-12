@@ -37,6 +37,8 @@ if (isset($_GET['ok']) && $_GET['ok'] === '1') {
     $alertaTipo = 'alerta-error';
     if ($_GET['error'] === 'mesa') {
         $alertaTexto = 'Debes seleccionar una mesa válida antes de enviar el pedido.';
+    } elseif ($_GET['error'] === 'ocupada') {
+        $alertaTexto = 'La mesa seleccionada ya se encuentra ocupada. Elige una mesa disponible.';
     } elseif ($_GET['error'] === 'vacio') {
         $alertaTexto = 'Agrega al menos un producto al carrito para confirmar el pedido.';
     } else {
@@ -73,9 +75,10 @@ if (isset($_GET['ok']) && $_GET['ok'] === '1') {
                     <p class="selector-ayuda">El pedido llegará directo a cocina con el número de tu mesa.</p>
                 </div>
                 <select name="mesa_id" id="mesa_id" class="select-mesa" required>
-                    <option value="">-- Selecciona una mesa --</option>
+                    <option value="">-- Selecciona una mesa disponible --</option>
                     <?php foreach ($mesas as $mesa): ?>
-                        <option value="<?php echo (int) $mesa['id']; ?>">
+                        <?php $estaOcupada = ($mesa['estado'] !== 'Disponible'); ?>
+                        <option value="<?php echo (int) $mesa['id']; ?>" <?php echo $estaOcupada ? 'disabled' : ''; ?>>
                             Mesa #<?php echo (int) $mesa['numero']; ?> (<?php echo htmlspecialchars((string) $mesa['estado'], ENT_QUOTES, 'UTF-8'); ?>)
                         </option>
                     <?php endforeach; ?>
@@ -161,6 +164,10 @@ if (isset($_GET['ok']) && $_GET['ok'] === '1') {
                     actualizarResumen();
                 });
             });
+
+            if (window.location.search) {
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
         })();
     </script>
 </body>

@@ -32,8 +32,8 @@ if (count($itemsValidos) === 0) {
 
 $conn->begin_transaction();
 try {
-    // Verificar existencia de la mesa
-    $stmtCheckMesa = $conn->prepare("SELECT numero FROM mesas WHERE id = ?");
+    // Verificar existencia y disponibilidad real de la mesa
+    $stmtCheckMesa = $conn->prepare("SELECT numero, estado FROM mesas WHERE id = ? FOR UPDATE");
     if ($stmtCheckMesa === false) {
         throw new RuntimeException('Error verificando mesa.');
     }
@@ -46,6 +46,12 @@ try {
     if (!$mesaRow) {
         $conn->rollback();
         header('Location: index.php?error=mesa');
+        exit;
+    }
+
+    if ((string) $mesaRow['estado'] !== 'Disponible') {
+        $conn->rollback();
+        header('Location: index.php?error=ocupada');
         exit;
     }
 
